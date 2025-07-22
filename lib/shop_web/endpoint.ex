@@ -49,5 +49,26 @@ defmodule ShopWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+  plug :check_promo_code, code: "Xbox is amazing@"
   plug ShopWeb.Router
+
+  def check_promo_code(%Plug.Conn{} = conn, _opts) do
+    promo_code = conn.params["promo"]
+
+    if promo_code do
+      IO.inspect("Promo is true!")
+      assign(conn, :promo, true)
+    else
+      assign(conn, :promo, false)
+    end
+  end
+
+  def check_promo_code(%Plug.Conn{:params => %{"promo" => "secret-code"}} = conn, _opts) do
+    assign(conn, :promo, false)
+  end
+
+  def check_promo_code(%Plug.Conn{} = conn, opts) do
+    IO.inspect(opts)
+    assign(conn, :promo, false)
+  end
 end

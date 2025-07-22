@@ -1,2 +1,2 @@
-<h1>Wohhhhhhhhhh</h1>
-<h1> This is the product list </h1>
+<p :if={@promo}>You have a promotional code!</p>
+<.product :for={product <- @products} name={product.name} />
